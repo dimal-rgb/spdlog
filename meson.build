@@ -50,7 +50,7 @@ if get_option('library_type') == 'static'
   spdlog = static_library(
     'spdlog',
     spdlog_srcs,
-    cpp_args            : [compile_args] + ['-DSPDLOG_COMPILED_LIB'] + ['-L/usr/local/lib/', '-l:libjemalloc_pic.a'],
+    cpp_args            : [compile_args] + ['-DSPDLOG_COMPILED_LIB'] + ['-L' + ${JEMALLOC_PATH}, '-l:libjemalloc_pic.a'],
     include_directories : spdlog_inc,
     dependencies        : dep_list,
     install             : not meson.is_subproject()
@@ -58,7 +58,7 @@ if get_option('library_type') == 'static'
 else
   spdlog = shared_library('spdlog',
     spdlog_srcs,
-    cpp_args            : [compile_args] + ['-DSPDLOG_COMPILED_LIB'] + ['-L/usr/local/lib/', '-l:libjemalloc_pic.a'],
+    cpp_args            : [compile_args] + ['-DSPDLOG_COMPILED_LIB'] + ['-L' + ${JEMALLOC_PATH}, '-l:libjemalloc_pic.a'],
     include_directories : spdlog_inc,
     dependencies        : dep_list,
     install             : not meson.is_subproject(),
