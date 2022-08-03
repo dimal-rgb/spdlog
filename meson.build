@@ -49,7 +49,7 @@ spdlog_srcs = files([
 JEMALLOC_PATH = get_option('jemalloc_path')
 if JEMALLOC_PATH != ''
   compile_args += ['-L' + JEMALLOC_PATH, '-l:libjemalloc_pic.a']
-
+endif
 
 if get_option('library_type') == 'static'
   spdlog = static_library(
