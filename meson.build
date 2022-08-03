@@ -46,13 +46,16 @@ spdlog_srcs = files([
     'src/stdout_sinks.cpp'
 ])
 
-JEMALLOC_PATH_VAR = ${JEMALLOC_PATH}
+JEMALLOC_PATH = get_option('jemalloc_path')
+if JEMALLOC_PATH != ""
+  compile_args += ['-L' + JEMALLOC_PATH, '-l:libjemalloc_pic.a']
+
 
 if get_option('library_type') == 'static'
   spdlog = static_library(
     'spdlog',
     spdlog_srcs,
-    cpp_args            : [compile_args] + ['-DSPDLOG_COMPILED_LIB'] + ['-L' + JEMALLOC_PATH_VAR, '-l:libjemalloc_pic.a'],
+    cpp_args            : [compile_args] + ['-DSPDLOG_COMPILED_LIB'],
     include_directories : spdlog_inc,
     dependencies        : dep_list,
     install             : not meson.is_subproject()
@@ -60,7 +63,7 @@ if get_option('library_type') == 'static'
 else
   spdlog = shared_library('spdlog',
     spdlog_srcs,
-    cpp_args            : [compile_args] + ['-DSPDLOG_COMPILED_LIB'] + ['-L' + JEMALLOC_PATH_VAR, '-l:libjemalloc_pic.a'],
+    cpp_args            : [compile_args] + ['-DSPDLOG_COMPILED_LIB'],
     include_directories : spdlog_inc,
     dependencies        : dep_list,
     install             : not meson.is_subproject(),
